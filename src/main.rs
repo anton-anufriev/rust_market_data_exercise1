@@ -110,24 +110,18 @@ fn main() {
     let price_update = PriceUpdate::new(1, 45.32);
     price_update_handler.handle_price_update(&price_update);
     let order = Order::new(1, 100, 45.32);
-    let order_result = order_handler.handle_order(&order);
-    match order_result {
-        Ok(_) => println!("Order succeeded: {:?}", order),
-        Err(err) => println!("Order error {} in  {:?}", err.to_string(), order)
-    }
+    handle_order_result( &order, order_handler.handle_order(&order));
 
     let order = Order::new(1, 100, 45.31);
-    let order_result = order_handler.handle_order(&order);
-    match order_result {
-        Ok(_) => println!("Order succeeded: {:?}", order),
-        Err(err) => println!("Order error: {} in:  {:?}", err.to_string(), order)
-    }
+    handle_order_result( &order, order_handler.handle_order(&order));
 
     let order = Order::new(2, 100, 45.31);
-    let order_result = order_handler.handle_order(&order);
-    match order_result {
+    handle_order_result( &order, order_handler.handle_order(&order));
+}
+
+fn handle_order_result(order: &Order, result: Result<(), OrderError>) {
+    match result {
         Ok(_) => println!("Order succeeded: {:?}", order),
         Err(err) => println!("Order error: {} in:  {:?}", err.to_string(), order)
     }
-
 }
